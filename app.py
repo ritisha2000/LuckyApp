@@ -1,6 +1,5 @@
 import streamlit as st
-import PyPDF2
-from PyPDF2 import PdfReader
+import fitz
 from transformers import pipeline
 import spacy
 from collections import defaultdict
@@ -10,9 +9,11 @@ st.title("Automating stuff")
 pdf_file = st.file_uploader("Upload PDF", type="pdf")
 
 if pdf_file:
-    reader = PdfReader(pdf_file)
-    page = reader.pages[0]
-    text = page.extract_text()
+    doc = fitz.open(pdf_file)
+    full_text = []
+    for page in doc:
+        full_text.append(page.get_text("text"))
+    text = " ".join(full_text)
 
     summarizer = pipeline("summarization")
     summary = summarizer(text)
