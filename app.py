@@ -1,8 +1,8 @@
 import streamlit as st
-import fitz
 from transformers import pipeline
 import spacy
 from collections import defaultdict
+import fitz
 
 st.title("Automating stuff")
 
